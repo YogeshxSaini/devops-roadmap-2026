@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function PathPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const path = getPath(params.slug);
+  const path = getPath(slug);
   if (!path) notFound();
 
   return (

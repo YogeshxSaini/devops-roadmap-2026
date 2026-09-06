@@ -23,7 +23,7 @@ const DIFFICULTY_LABEL = ['', 'Beginner', 'Easy', 'Intermediate', 'Advanced', 'E
 
 export default async function SkillPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const skill = getSkillBySlug(params.slug);
+  const skill = getSkillBySlug(slug);
   if (!skill) notFound();
 
   const meta = CATEGORY_META[skill.category];

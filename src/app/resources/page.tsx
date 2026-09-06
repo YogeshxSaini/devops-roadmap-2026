@@ -79,7 +79,6 @@ export default function ResourcesPage() {
                         <Link
                           key={id}
                           href={`/skills/${s.slug}`}
-                          onClick={(e) => e.stopPropagation()}
                           className="text-mono text-[10px] px-1.5 py-0.5 border border-border-subtle text-fg-muted hover:text-accent"
                         >
                           {s.name}

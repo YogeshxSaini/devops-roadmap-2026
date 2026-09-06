@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { LEARNING_PATHS, PROJECTS, ALL_SKILLS, CATEGORY_META, TRENDS, totalSkillCount } from '@/lib';
 import { ArrowRight, Terminal, BookOpen, Hammer, Wrench, Award, BookOpenCheck, Boxes, Activity } from 'lucide-react';
+import { FadeUp, Stagger } from '@/components/shared/Reveal';
 
 export default function Home() {
   const totalSkills = totalSkillCount();
@@ -35,55 +36,59 @@ function Hero({ totalSkills }: { totalSkills: number }) {
         }}
       />
       <div className="relative mx-auto max-w-7xl px-5 pt-20 pb-24">
-        <div className="text-mono text-xs text-fg-dim mb-6">
-          <span className="text-accent">●</span> v2026.09 — {totalSkills} skills · 4 paths · 8 projects
-        </div>
-
-        <h1 className="text-display font-semibold tracking-tight max-w-4xl">
-          DevOps <span className="text-fg-muted">Roadmap</span> <span className="text-accent">2026</span>
-        </h1>
-
-        <p className="mt-6 text-xl text-fg-muted max-w-2xl leading-relaxed">
-          Learn the skills. Build real systems. Become production-ready.
-        </p>
-
-        <p className="mt-6 text-sm text-fg-dim max-w-2xl leading-relaxed">
-          An opinionated, interactive path through DevOps, SRE, and Platform engineering.
-          Concepts first. Tools second. No fluff, no upsell, no purple gradients.
-        </p>
-
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Link
-            href="/roadmap"
-            className="inline-flex items-center gap-2 text-mono text-sm px-5 py-2.5 border border-accent text-accent hover:bg-accent/10"
-          >
-            Start the Roadmap <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-          <Link
-            href="/skills"
-            className="inline-flex items-center gap-2 text-mono text-sm px-5 py-2.5 border border-border bg-bg-raised text-fg-primary hover:border-accent"
-          >
-            Explore the Skills
-          </Link>
-        </div>
-
-        <div className="mt-16 border border-border-subtle bg-bg-raised max-w-3xl">
-          <div className="flex items-center gap-1.5 px-3 py-1.5 border-b border-border-subtle">
-            <span className="w-2 h-2 bg-rose" />
-            <span className="w-2 h-2 bg-amber" />
-            <span className="w-2 h-2 bg-accent" />
-            <span className="text-mono text-[10px] text-fg-dim ml-2">~/devops-roadmap-2026</span>
+        <FadeUp>
+          <div className="text-mono text-xs text-fg-dim mb-6">
+            <span className="text-accent">●</span> v2026.09 — {totalSkills} skills · 4 paths · 8 projects
           </div>
-          <pre className="px-4 py-4 text-mono text-xs leading-relaxed text-fg-primary overflow-x-auto">
-            <code>
-              <span className="text-fg-dim">$</span> <span className="text-accent">./start</span> --path=devops-engineer{'\n'}
-              <span className="text-fg-dim">→</span> Loaded <span className="text-amber">{totalSkills}</span> skills across 16 categories{'\n'}
-              <span className="text-fg-dim">→</span> Estimated time: <span className="text-sky">~700h</span> · spread over 6-12 months{'\n'}
-              <span className="text-fg-dim">→</span> Begin with: <span className="text-accent">Linux & the Shell</span>
-              <span className="cursor-blink" />
-            </code>
-          </pre>
-        </div>
+
+          <h1 className="text-display font-semibold tracking-tight max-w-4xl">
+            DevOps <span className="text-fg-muted">Roadmap</span> <span className="text-accent">2026</span>
+          </h1>
+
+          <p className="mt-6 text-xl text-fg-muted max-w-2xl leading-relaxed">
+            Learn the skills. Build real systems. Become production-ready.
+          </p>
+
+          <p className="mt-6 text-sm text-fg-dim max-w-2xl leading-relaxed">
+            An opinionated, interactive path through DevOps, SRE, and Platform engineering.
+            Concepts first. Tools second. No fluff, no upsell, no purple gradients.
+          </p>
+
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              href="/roadmap"
+              className="inline-flex items-center gap-2 text-mono text-sm px-5 py-2.5 border border-accent text-accent hover:bg-accent/10"
+            >
+              Start the Roadmap <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+            <Link
+              href="/skills"
+              className="inline-flex items-center gap-2 text-mono text-sm px-5 py-2.5 border border-border bg-bg-raised text-fg-primary hover:border-accent"
+            >
+              Explore the Skills
+            </Link>
+          </div>
+        </FadeUp>
+
+        <FadeUp delay={0.15}>
+          <div className="mt-16 border border-border-subtle bg-bg-raised max-w-3xl">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 border-b border-border-subtle">
+              <span className="w-2 h-2 bg-rose" />
+              <span className="w-2 h-2 bg-amber" />
+              <span className="w-2 h-2 bg-accent" />
+              <span className="text-mono text-[10px] text-fg-dim ml-2">~/devops-roadmap-2026</span>
+            </div>
+            <pre className="px-4 py-4 text-mono text-xs leading-relaxed text-fg-primary overflow-x-auto">
+              <code>
+                <span className="text-fg-dim">$</span> <span className="text-accent">./start</span> --path=devops-engineer{'\n'}
+                <span className="text-fg-dim">→</span> Loaded <span className="text-amber">{totalSkills}</span> skills across 16 categories{'\n'}
+                <span className="text-fg-dim">→</span> Estimated time: <span className="text-sky">~700h</span> · spread over 6-12 months{'\n'}
+                <span className="text-fg-dim">→</span> Begin with: <span className="text-accent">Linux & the Shell</span>
+                <span className="cursor-blink" />
+              </code>
+            </pre>
+          </div>
+        </FadeUp>
       </div>
     </section>
   );
@@ -120,15 +125,17 @@ function Philosophy() {
     <section className="border-b border-border-subtle">
       <div className="mx-auto max-w-7xl px-5 py-20">
         <div className="grid lg:grid-cols-[300px_1fr] gap-12">
-          <div>
-            <div className="eyebrow">// PHILOSOPHY</div>
-            <h2 className="mt-2 text-h2 font-semibold tracking-tight">Learn → Practice → Build → Prove</h2>
-            <p className="mt-3 text-sm text-fg-muted leading-relaxed">
-              The loop that turns a curious engineer into a job-ready one. Every skill in this roadmap
-              is tagged with at least one exercise, and at least one project proves it in context.
-            </p>
-          </div>
-          <div className="grid sm:grid-cols-2 gap-3">
+          <FadeUp>
+            <div>
+              <div className="eyebrow">// PHILOSOPHY</div>
+              <h2 className="mt-2 text-h2 font-semibold tracking-tight">Learn → Practice → Build → Prove</h2>
+              <p className="mt-3 text-sm text-fg-muted leading-relaxed">
+                The loop that turns a curious engineer into a job-ready one. Every skill in this roadmap
+                is tagged with at least one exercise, and at least one project proves it in context.
+              </p>
+            </div>
+          </FadeUp>
+          <Stagger className="grid sm:grid-cols-2 gap-3">
             {pillars.map((p, i) => (
               <div key={i} className="border border-border-subtle bg-bg-raised p-5">
                 <div className="flex items-center gap-2 mb-2">
@@ -142,7 +149,7 @@ function Philosophy() {
                 <p className="mt-1.5 text-sm text-fg-muted leading-relaxed">{p.body}</p>
               </div>
             ))}
-          </div>
+          </Stagger>
         </div>
       </div>
     </section>
@@ -227,7 +234,7 @@ function ChoosePath() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-4">
+        <Stagger className="grid md:grid-cols-2 gap-4">
           {LEARNING_PATHS.map((p, i) => (
             <Link
               key={p.id}
@@ -250,7 +257,7 @@ function ChoosePath() {
               </div>
             </Link>
           ))}
-        </div>
+        </Stagger>
       </div>
     </section>
   );
@@ -329,7 +336,7 @@ function ProjectsPreview() {
           </Link>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
+        <Stagger className="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
           {PROJECTS.slice(0, 4).map((p, i) => (
             <Link
               key={p.id}
@@ -346,7 +353,7 @@ function ProjectsPreview() {
               </div>
             </Link>
           ))}
-        </div>
+        </Stagger>
       </div>
     </section>
   );
@@ -370,7 +377,7 @@ function TrendsPreview() {
               Read all 8 trends <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
-          <div className="space-y-2">
+          <Stagger className="space-y-2">
             {TRENDS.slice(0, 4).map((t) => (
               <div key={t.id} className="border border-border-subtle bg-bg-raised p-4">
                 <div className="text-mono text-[10px] text-fg-dim uppercase tracking-wider mb-1">
@@ -380,7 +387,7 @@ function TrendsPreview() {
                 <p className="mt-1.5 text-xs text-fg-muted line-clamp-2 leading-relaxed">{t.summary}</p>
               </div>
             ))}
-          </div>
+          </Stagger>
         </div>
       </div>
     </section>
