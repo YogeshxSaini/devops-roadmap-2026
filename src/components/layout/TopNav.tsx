@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { Menu, X, Terminal } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { ThemeToggle } from './ThemeToggle';
 
 const nav = [
   { href: '/roadmap', label: 'Roadmap' },
@@ -56,6 +57,7 @@ export function TopNav() {
           >
             Start <span className="text-fg-muted">→</span>
           </Link>
+          <ThemeToggle />
           <button
             aria-label="Toggle menu"
             className="md:hidden p-2 border border-border-subtle"
