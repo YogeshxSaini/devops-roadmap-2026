@@ -217,7 +217,7 @@ export function InteractiveRoadmap() {
             >
               <div
                 className="absolute inset-0 border border-dashed"
-                style={{ borderColor: '#1F1F23', background: 'rgba(255,255,255,0.005)' }}
+                style={{ borderColor: 'var(--border-subtle)', background: 'transparent' }}
               />
               <div className="absolute top-0 left-0 right-0 px-4 py-2 flex items-center gap-2 text-mono text-[10px] tracking-widest uppercase"
                 style={{ color: c.color }}
@@ -243,7 +243,7 @@ export function InteractiveRoadmap() {
                 onClick={() => onNodeClick(n.id)}
                 onDoubleClick={() => onNodeDouble(n.id)}
                 className={cn(
-                  'absolute text-left transition-shadow border bg-bg-raised',
+                  'absolute text-left transition-shadow border',
                   isHovered && 'shadow-glow'
                 )}
                 style={{
@@ -251,8 +251,8 @@ export function InteractiveRoadmap() {
                   top: n.y,
                   width: NODE_DIMENSIONS.width,
                   height: NODE_DIMENSIONS.height,
-                  borderColor: isHovered ? '#7DD3A0' : sc,
-                  background: isHovered ? '#16161A' : '#111114',
+                  borderColor: isHovered ? 'var(--accent)' : sc,
+                  background: isHovered ? 'var(--bg-overlay)' : 'var(--bg-raised)',
                 }}
               >
                 <div className="flex items-center gap-1.5 px-2.5 pt-1.5">
