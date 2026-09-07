@@ -11,10 +11,10 @@ import { ZoomIn, ZoomOut, Maximize2, Filter, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const STATUS_COLOR: Record<SkillStatus, string> = {
-  'not-started': '#3A3A42',
-  learning: '#E8B86D',
-  practiced: '#7AB8E8',
-  completed: '#7DD3A0',
+  'not-started': 'var(--status-not-started)',
+  learning: 'var(--status-learning)',
+  practiced: 'var(--status-practiced)',
+  completed: 'var(--status-completed)',
 };
 
 const STATUS_LABEL: Record<SkillStatus, string> = {
@@ -24,11 +24,15 @@ const STATUS_LABEL: Record<SkillStatus, string> = {
   completed: 'Completed',
 };
 
+const MIN_ZOOM = 0.2;
+const MAX_ZOOM = 1.5;
+
 export function InteractiveRoadmap() {
   const router = useRouter();
   const { progress, hydrated } = useProgress();
   const containerRef = useRef<HTMLDivElement>(null);
   const [zoom, setZoom] = useState(0.55);
+  const [fitZoom, setFitZoom] = useState(0.55);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isPanning, setIsPanning] = useState(false);
   const [panStart, setPanStart] = useState({ x: 0, y: 0, panX: 0, panY: 0 });
@@ -49,9 +53,11 @@ export function InteractiveRoadmap() {
     const ch = containerRef.current.clientHeight;
     const zX = (cw - 80) / layout.bounds.width;
     const zY = (ch - 80) / layout.bounds.height;
-    setZoom(Math.min(zX, zY, 1));
+    const fit = Math.max(MIN_ZOOM, Math.min(zX, zY, 1));
+    setFitZoom(fit);
+    setZoom(fit);
     setPan({
-      x: (cw - layout.bounds.width * Math.min(zX, zY, 1)) / 2,
+      x: (cw - layout.bounds.width * fit) / 2,
       y: 40,
     });
   };
@@ -77,8 +83,14 @@ export function InteractiveRoadmap() {
   const onWheel = (e: React.WheelEvent) => {
     e.preventDefault();
     const delta = -e.deltaY * 0.001;
-    setZoom((z) => Math.min(1.5, Math.max(0.15, z + delta)));
+    setZoom((z) => {
+      const next = z + delta;
+      return Math.max(fitZoom, Math.min(MAX_ZOOM, next));
+    });
   };
+
+  const onZoomIn = () => setZoom((z) => Math.min(MAX_ZOOM, z + 0.1));
+  const onZoomOut = () => setZoom((z) => Math.max(fitZoom, z - 0.1));
 
   const onNodeClick = (id: string) => {
     setSelected(id);
@@ -120,15 +132,19 @@ export function InteractiveRoadmap() {
         </div>
         <div className="w-px h-5 bg-border-subtle mx-1" />
         <button
-          onClick={() => setZoom((z) => Math.min(1.5, z + 0.1))}
+          onClick={onZoomIn}
           className="p-1.5 border border-border-subtle text-fg-muted hover:text-fg-primary"
           aria-label="Zoom in"
         >
           <ZoomIn className="w-3.5 h-3.5" />
         </button>
         <button
-          onClick={() => setZoom((z) => Math.max(0.15, z - 0.1))}
-          className="p-1.5 border border-border-subtle text-fg-muted hover:text-fg-primary"
+          onClick={onZoomOut}
+          disabled={zoom <= fitZoom + 0.001}
+          className={cn(
+            'p-1.5 border border-border-subtle text-fg-muted hover:text-fg-primary',
+            zoom <= fitZoom + 0.001 && 'opacity-40 cursor-not-allowed hover:text-fg-muted'
+          )}
           aria-label="Zoom out"
         >
           <ZoomOut className="w-3.5 h-3.5" />
@@ -156,7 +172,7 @@ export function InteractiveRoadmap() {
         onWheel={onWheel}
         style={{
           backgroundImage:
-            'linear-gradient(to right, rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.015) 1px, transparent 1px)',
+            'linear-gradient(to right, var(--grid-line) 1px, transparent 1px), linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px)',
           backgroundSize: '32px 32px',
         }}
       >
@@ -171,39 +187,6 @@ export function InteractiveRoadmap() {
             left: 0,
           }}
         >
-          <svg
-            width={layout.bounds.width}
-            height={layout.bounds.height}
-            style={{ position: 'absolute', top: 0, left: 0, pointerEvents: 'none' }}
-          >
-            <defs>
-              <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2A2A30" />
-              </marker>
-            </defs>
-            {layout.edges.map((e, i) => {
-              const from = layout.nodes.find((n) => n.id === e.from);
-              const to = layout.nodes.find((n) => n.id === e.to);
-              if (!from || !to) return null;
-              if (filter !== 'all' && (from.status !== filter || to.status !== filter)) return null;
-              const fx = from.x + NODE_DIMENSIONS.width;
-              const fy = from.y + NODE_DIMENSIONS.height / 2;
-              const tx = to.x;
-              const ty = to.y + NODE_DIMENSIONS.height / 2;
-              const dx = (tx - fx) * 0.5;
-              return (
-                <path
-                  key={i}
-                  d={`M ${fx} ${fy} C ${fx + dx} ${fy}, ${tx - dx} ${ty}, ${tx} ${ty}`}
-                  stroke={from.status === 'completed' && to.status === 'completed' ? '#3A6B4F' : '#1F1F23'}
-                  strokeWidth={1.2}
-                  fill="none"
-                  markerEnd="url(#arrow)"
-                />
-              );
-            })}
-          </svg>
-
           {layout.clusters.map((c) => (
             <div
               key={c.category}
@@ -217,14 +200,14 @@ export function InteractiveRoadmap() {
             >
               <div
                 className="absolute inset-0 border border-dashed"
-                style={{ borderColor: 'var(--border-subtle)', background: 'transparent' }}
+                style={{ borderColor: 'var(--border)', background: 'transparent' }}
               />
               <div className="absolute top-0 left-0 right-0 px-4 py-2 flex items-center gap-2 text-mono text-[10px] tracking-widest uppercase"
                 style={{ color: c.color }}
               >
                 <span style={{ background: c.color, width: 6, height: 6, display: 'inline-block' }} />
                 <span>{String(c.order).padStart(2, '0')} · {c.label}</span>
-                <span className="ml-auto text-fg-dim normal-case tracking-normal">
+                <span className="ml-auto text-fg-muted normal-case tracking-normal">
                   {layout.nodes.filter((n) => n.category === c.category).length} skills
                 </span>
               </div>
@@ -234,6 +217,7 @@ export function InteractiveRoadmap() {
           {visibleNodes.map((n) => {
             const sc = STATUS_COLOR[n.status];
             const isHovered = hovered === n.id;
+            const isSelected = selected === n.id;
             return (
               <button
                 key={n.id}
@@ -243,28 +227,29 @@ export function InteractiveRoadmap() {
                 onClick={() => onNodeClick(n.id)}
                 onDoubleClick={() => onNodeDouble(n.id)}
                 className={cn(
-                  'absolute text-left transition-shadow border',
-                  isHovered && 'shadow-glow'
+                  'absolute text-left transition-shadow border bg-bg-raised',
+                  isHovered && 'shadow-glow',
+                  isSelected && 'shadow-glow'
                 )}
                 style={{
                   left: n.x,
                   top: n.y,
                   width: NODE_DIMENSIONS.width,
                   height: NODE_DIMENSIONS.height,
-                  borderColor: isHovered ? 'var(--accent)' : sc,
-                  background: isHovered ? 'var(--bg-overlay)' : 'var(--bg-raised)',
+                  borderColor: isHovered || isSelected ? 'var(--accent)' : sc,
+                  background: 'var(--bg-raised)',
                 }}
               >
                 <div className="flex items-center gap-1.5 px-2.5 pt-1.5">
                   <span style={{ width: 6, height: 6, background: sc, display: 'inline-block' }} />
-                  <span className="text-mono text-[9px] text-fg-dim uppercase tracking-wider">
+                  <span className="text-mono text-[9px] text-fg-muted uppercase tracking-wider">
                     L{n.difficulty} · {n.hours}h
                   </span>
-                  <span className="ml-auto text-mono text-[9px]" style={{ color: sc }}>
+                  <span className="ml-auto text-mono text-[9px] font-semibold" style={{ color: sc }}>
                     {STATUS_LABEL[n.status]}
                   </span>
                 </div>
-                <div className="px-2.5 pb-1.5 pt-0.5 text-[12px] leading-tight font-medium text-fg-primary truncate">
+                <div className="px-2.5 pb-1.5 pt-0.5 text-[12px] leading-tight font-semibold text-fg-primary truncate">
                   {n.name}
                 </div>
               </button>
@@ -294,11 +279,11 @@ export function InteractiveRoadmap() {
             <div className="grid grid-cols-2 gap-2 text-mono text-xs">
               <div className="border border-border-subtle p-2">
                 <div className="text-fg-dim text-[10px]">DIFFICULTY</div>
-                <div>{selectedNode.skill.difficulty}/5</div>
+                <div className="text-fg-primary">{selectedNode.skill.difficulty}/5</div>
               </div>
               <div className="border border-border-subtle p-2">
                 <div className="text-fg-dim text-[10px]">HOURS</div>
-                <div>{selectedNode.skill.estimatedHours}h</div>
+                <div className="text-fg-primary">{selectedNode.skill.estimatedHours}h</div>
               </div>
             </div>
 
@@ -324,10 +309,10 @@ export function InteractiveRoadmap() {
 
             <div>
               <div className="eyebrow mb-2 text-fg-muted">TOPICS</div>
-              <ul className="text-xs space-y-1 text-fg-muted">
+              <ul className="text-xs space-y-1 text-fg-primary">
                 {selectedNode.skill.topics.slice(0, 5).map((t, i) => (
                   <li key={i} className="flex gap-2">
-                    <span className="text-fg-dim">›</span>
+                    <span className="text-fg-muted">›</span>
                     <span>{t}</span>
                   </li>
                 ))}
