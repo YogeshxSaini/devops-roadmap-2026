@@ -4,6 +4,7 @@ import { TopNav } from '@/components/layout/TopNav';
 import { Footer } from '@/components/layout/Footer';
 import { ProgressIndicator } from '@/components/layout/ProgressIndicator';
 import { ProgressProvider } from '@/components/layout/ProgressProvider';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata: Metadata = {
   title: 'DevOps Roadmap 2026 — Learn, Build, Become Production-Ready',
@@ -43,6 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main id="main">{children}</main>
           <Footer />
         </ProgressProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
