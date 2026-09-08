@@ -28,7 +28,7 @@ const sections = [
 export function Footer() {
   return (
     <footer className="border-t border-border-subtle mt-32">
-      <div className="mx-auto max-w-7xl px-5 py-14 grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div className="mx-auto max-w-7xl px-4 sm:px-5 py-10 sm:py-14 grid gap-8 sm:gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
           <div className="text-mono text-sm font-medium">
             devops<span className="text-fg-muted">/</span>roadmap
@@ -58,7 +58,7 @@ export function Footer() {
         ))}
       </div>
       <div className="border-t border-border-subtle">
-        <div className="mx-auto max-w-7xl px-5 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-2 text-mono text-xs text-fg-dim">
+        <div className="mx-auto max-w-7xl px-4 sm:px-5 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-2 text-mono text-xs text-fg-dim">
           <span>// {new Date().getFullYear()} — open roadmap, free forever</span>
           <span className="sm:ml-auto text-fg-muted">
             <span className="text-accent">●</span> status: open-source

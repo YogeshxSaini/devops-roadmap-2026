@@ -11,7 +11,7 @@ const DIFFICULTY_DOTS: Record<number, number> = { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 }
 
 export default function ProjectsIndex() {
   return (
-    <div className="mx-auto max-w-7xl px-5 py-12">
+    <div className="mx-auto max-w-7xl px-4 sm:px-5 py-8 sm:py-12">
       <header className="mb-10">
         <div className="eyebrow">// PROJECTS</div>
         <h1 className="mt-2 text-h1 font-semibold tracking-tight">Build real systems</h1>

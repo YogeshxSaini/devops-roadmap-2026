@@ -17,7 +17,7 @@ export default function NotFound() {
             'radial-gradient(ellipse at 50% 0%, rgba(232, 184, 109, 0.08), transparent 60%)',
         }}
       />
-      <div className="relative mx-auto max-w-3xl px-5 py-28 text-center">
+      <div className="relative mx-auto max-w-3xl px-4 sm:px-5 py-16 sm:py-28 text-center">
         <div className="inline-flex items-center gap-2 text-mono text-xs text-fg-dim border border-border-subtle bg-bg-raised px-3 py-1.5">
           <Terminal className="w-3 h-3 text-amber" />
           <span>$ route --resolve</span>

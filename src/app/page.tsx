@@ -35,7 +35,7 @@ function Hero({ totalSkills }: { totalSkills: number }) {
             'radial-gradient(ellipse at 50% 0%, rgba(125, 211, 160, 0.08), transparent 60%)',
         }}
       />
-      <div className="relative mx-auto max-w-7xl px-5 pt-20 pb-24">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-5 pt-12 sm:pt-20 pb-16 sm:pb-24">
         <FadeUp>
           <div className="text-mono text-xs text-fg-dim mb-6">
             <span className="text-accent">●</span> v2026.09 — {totalSkills} skills · 4 paths · 8 projects
@@ -123,7 +123,7 @@ function Philosophy() {
   ];
   return (
     <section className="border-b border-border-subtle">
-      <div className="mx-auto max-w-7xl px-5 py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-5 py-20">
         <div className="grid lg:grid-cols-[300px_1fr] gap-12">
           <FadeUp>
             <div>
@@ -160,7 +160,7 @@ function RoadmapPreview() {
   const cats = Object.values(CATEGORY_META).sort((a, b) => a.order - b.order);
   return (
     <section className="border-b border-border-subtle">
-      <div className="mx-auto max-w-7xl px-5 py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-5 py-20">
         <div className="flex items-end justify-between flex-wrap gap-4 mb-10">
           <div>
             <div className="eyebrow">// INTERACTIVE ROADMAP</div>
@@ -178,7 +178,7 @@ function RoadmapPreview() {
         </div>
 
         <div className="border border-border-subtle bg-bg-raised p-2">
-          <div className="grid grid-cols-4 sm:grid-cols-8 gap-px bg-border-subtle">
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-px bg-border-subtle">
             {cats.map((c) => {
               const count = ALL_SKILLS.filter((s) => s.category === (
                 c.label === 'Linux & CLI' ? 'linux-cli' :
@@ -225,7 +225,7 @@ function RoadmapPreview() {
 function ChoosePath() {
   return (
     <section className="border-b border-border-subtle">
-      <div className="mx-auto max-w-7xl px-5 py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-5 py-20">
         <div className="mb-10">
           <div className="eyebrow">// CHOOSE YOUR PATH</div>
           <h2 className="mt-2 text-h2 font-semibold tracking-tight">Four ways in</h2>
@@ -275,7 +275,7 @@ function SkillProgression() {
     s === 'completed' ? 'bg-accent' : s === 'practiced' ? 'bg-sky' : s === 'learning' ? 'bg-amber' : 'bg-fg-dim';
   return (
     <section className="border-b border-border-subtle">
-      <div className="mx-auto max-w-7xl px-5 py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-5 py-20">
         <div className="grid lg:grid-cols-[1fr_1fr] gap-12">
           <div>
             <div className="eyebrow">// SKILL PROGRESSION</div>
@@ -319,7 +319,7 @@ function SkillProgression() {
 function ProjectsPreview() {
   return (
     <section className="border-b border-border-subtle">
-      <div className="mx-auto max-w-7xl px-5 py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-5 py-20">
         <div className="flex items-end justify-between flex-wrap gap-4 mb-10">
           <div>
             <div className="eyebrow">// PROJECTS</div>
@@ -362,7 +362,7 @@ function ProjectsPreview() {
 function TrendsPreview() {
   return (
     <section className="border-b border-border-subtle">
-      <div className="mx-auto max-w-7xl px-5 py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-5 py-20">
         <div className="grid lg:grid-cols-[1fr_1fr] gap-12">
           <div>
             <div className="eyebrow">// 2026 TRENDS</div>
@@ -402,7 +402,7 @@ function FaqTeaser() {
   ];
   return (
     <section className="border-b border-border-subtle">
-      <div className="mx-auto max-w-4xl px-5 py-20">
+      <div className="mx-auto max-w-4xl px-4 sm:px-5 py-20">
         <div className="eyebrow">// FAQ</div>
         <h2 className="mt-2 text-h2 font-semibold tracking-tight">Common questions</h2>
         <div className="mt-6 border border-border-subtle divide-y divide-border-subtle">
@@ -431,7 +431,7 @@ function FinalCta() {
   return (
     <section className="relative overflow-hidden">
       <div className="absolute inset-0 grid-bg pointer-events-none" />
-      <div className="relative mx-auto max-w-4xl px-5 py-28 text-center">
+      <div className="relative mx-auto max-w-4xl px-4 sm:px-5 py-20 sm:py-28 text-center">
         <div className="inline-block border border-accent text-accent text-mono text-xs px-3 py-1.5 uppercase tracking-wider">
           ready to start?
         </div>

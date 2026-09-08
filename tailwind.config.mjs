@@ -4,6 +4,9 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      screens: {
+        xs: '400px',
+      },
       colors: {
         bg: {
           base: 'var(--bg-base)',

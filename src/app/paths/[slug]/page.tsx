@@ -20,7 +20,7 @@ export default async function PathPage({ params }: { params: Promise<{ slug: str
   if (!path) notFound();
 
   return (
-    <div className="mx-auto max-w-5xl px-5 py-12">
+    <div className="mx-auto max-w-5xl px-4 sm:px-5 py-8 sm:py-12">
       <Link
         href="/paths"
         className="inline-flex items-center gap-1.5 text-mono text-xs text-fg-muted hover:text-fg-primary mb-6"
@@ -66,24 +66,24 @@ export default async function PathPage({ params }: { params: Promise<{ slug: str
               <li key={id}>
                 <Link
                   href={`/skills/${skill.slug}`}
-                  className="group flex items-center gap-4 border border-border-subtle bg-bg-raised hover:border-accent p-3 transition-colors"
+                  className="group flex items-center gap-3 sm:gap-4 border border-border-subtle bg-bg-raised hover:border-accent p-3 transition-colors"
                 >
-                  <span className="text-mono text-xs text-fg-dim w-8 shrink-0">
+                  <span className="text-mono text-xs text-fg-dim w-7 sm:w-8 shrink-0">
                     {String(i + 1).padStart(2, '0')}
                   </span>
                   <span
-                    className="text-mono text-[10px] uppercase tracking-wider w-32 shrink-0 truncate"
+                    className="hidden sm:inline text-mono text-[10px] uppercase tracking-wider w-32 shrink-0 truncate"
                     style={{ color: meta.color }}
                   >
                     {meta.label}
                   </span>
-                  <span className="flex-1 text-sm font-medium text-fg-primary group-hover:text-accent">
+                  <span className="flex-1 min-w-0 text-sm font-medium text-fg-primary group-hover:text-accent truncate">
                     {skill.name}
                   </span>
-                  <span className="text-mono text-[10px] text-fg-dim hidden sm:inline">
+                  <span className="text-mono text-[10px] text-fg-dim hidden md:inline">
                     L{skill.difficulty} · {skill.estimatedHours}h
                   </span>
-                  <ArrowRight className="w-3.5 h-3.5 text-fg-dim group-hover:text-accent" />
+                  <ArrowRight className="w-3.5 h-3.5 text-fg-dim group-hover:text-accent shrink-0" />
                 </Link>
               </li>
             );

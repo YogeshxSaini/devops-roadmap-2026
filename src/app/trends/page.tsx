@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function TrendsPage() {
   return (
-    <div className="mx-auto max-w-4xl px-5 py-12">
+    <div className="mx-auto max-w-4xl px-4 sm:px-5 py-8 sm:py-12">
       <header className="mb-10">
         <div className="eyebrow">// 2026 TRENDS</div>
         <h1 className="mt-2 text-h1 font-semibold tracking-tight">What is shifting this year</h1>

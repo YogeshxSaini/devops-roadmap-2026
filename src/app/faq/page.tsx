@@ -9,7 +9,7 @@ export default function FaqPage() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <div className="mx-auto max-w-3xl px-5 py-12">
+    <div className="mx-auto max-w-3xl px-4 sm:px-5 py-8 sm:py-12">
       <header className="mb-10">
         <div className="eyebrow">// FAQ</div>
         <h1 className="mt-2 text-h1 font-semibold tracking-tight">Common questions</h1>

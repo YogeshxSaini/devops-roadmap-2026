@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function PathsIndex() {
   return (
-    <div className="mx-auto max-w-7xl px-5 py-12">
+    <div className="mx-auto max-w-7xl px-4 sm:px-5 py-8 sm:py-12">
       <header className="mb-10">
         <div className="eyebrow">// LEARNING PATHS</div>
         <h1 className="mt-2 text-h1 font-semibold tracking-tight">Choose your path</h1>

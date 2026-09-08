@@ -41,7 +41,7 @@ export function ThemeToggle() {
       title={`Switch to ${next} theme`}
       onClick={() => setTheme(next)}
       className={cn(
-        'p-2 border border-border-subtle text-fg-muted hover:text-fg-primary hover:border-border transition-colors'
+        'inline-flex items-center justify-center min-h-[40px] min-w-[40px] p-2.5 border border-border-subtle text-fg-muted hover:text-fg-primary hover:border-border transition-colors'
       )}
     >
       {mounted && theme === 'dark' ? (

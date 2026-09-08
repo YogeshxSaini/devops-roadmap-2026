@@ -80,6 +80,24 @@ export function InteractiveRoadmap() {
 
   const onMouseUp = () => setIsPanning(false);
 
+  // Touch support: single-finger pan, pinch ignored (wheel zoom still works on
+  // devices that report wheel from trackpad). Tap on a node still triggers click
+  // via the button's own onClick — we only intercept when starting on the
+  // background.
+  const onTouchStart = (e: React.TouchEvent) => {
+    if ((e.target as HTMLElement).closest('button[data-node]')) return;
+    if (e.touches.length !== 1) return;
+    const t = e.touches[0];
+    setIsPanning(true);
+    setPanStart({ x: t.clientX, y: t.clientY, panX: pan.x, panY: pan.y });
+  };
+  const onTouchMove = (e: React.TouchEvent) => {
+    if (!isPanning || e.touches.length !== 1) return;
+    const t = e.touches[0];
+    setPan({ x: panStart.panX + (t.clientX - panStart.x), y: panStart.panY + (t.clientY - panStart.y) });
+  };
+  const onTouchEnd = () => setIsPanning(false);
+
   const onWheel = (e: React.WheelEvent) => {
     e.preventDefault();
     const delta = -e.deltaY * 0.001;
@@ -109,18 +127,19 @@ export function InteractiveRoadmap() {
   return (
     <div className="relative w-full h-[calc(100vh-3.5rem)] bg-bg-base border border-border-subtle overflow-hidden">
       {/* Header / controls */}
-      <div className="absolute top-0 left-0 right-0 z-20 flex items-center gap-2 px-4 py-2 bg-bg-base/90 backdrop-blur border-b border-border-subtle">
-        <div className="text-mono text-xs text-fg-muted">
-          <span className="text-fg-primary">$ roadmap</span> --interactive
+      <div className="absolute top-0 left-0 right-0 z-20 flex flex-wrap items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-bg-base/90 backdrop-blur border-b border-border-subtle">
+        <div className="text-mono text-xs text-fg-muted whitespace-nowrap">
+          <span className="text-fg-primary">$ roadmap</span>
+          <span className="hidden sm:inline"> --interactive</span>
           <span className="text-fg-dim ml-2">[{hydrated ? 'live' : 'loading'}]</span>
         </div>
-        <div className="ml-auto flex items-center gap-1">
+        <div className="ml-auto flex flex-wrap items-center gap-1">
           {(['all', 'not-started', 'learning', 'practiced', 'completed'] as const).map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
               className={cn(
-                'text-mono text-[10px] px-2 py-1 border transition-colors uppercase tracking-wider',
+                'inline-flex items-center justify-center min-h-[32px] text-mono text-[10px] px-2 py-1 sm:py-1.5 border transition-colors uppercase tracking-wider',
                 filter === f
                   ? 'border-accent text-accent bg-accent/10'
                   : 'border-border text-fg-muted hover:text-fg-primary'
@@ -130,33 +149,35 @@ export function InteractiveRoadmap() {
             </button>
           ))}
         </div>
-        <div className="w-px h-5 bg-border-subtle mx-1" />
-        <button
-          onClick={onZoomIn}
-          className="p-1.5 border border-border-subtle text-fg-muted hover:text-fg-primary"
-          aria-label="Zoom in"
-        >
-          <ZoomIn className="w-3.5 h-3.5" />
-        </button>
-        <button
-          onClick={onZoomOut}
-          disabled={zoom <= fitZoom + 0.001}
-          className={cn(
-            'p-1.5 border border-border-subtle text-fg-muted hover:text-fg-primary',
-            zoom <= fitZoom + 0.001 && 'opacity-40 cursor-not-allowed hover:text-fg-muted'
-          )}
-          aria-label="Zoom out"
-        >
-          <ZoomOut className="w-3.5 h-3.5" />
-        </button>
-        <button
-          onClick={handleFit}
-          className="p-1.5 border border-border-subtle text-fg-muted hover:text-fg-primary"
-          aria-label="Fit"
-        >
-          <Maximize2 className="w-3.5 h-3.5" />
-        </button>
-        <div className="text-mono text-[10px] text-fg-dim px-2">
+        <div className="hidden sm:block w-px h-5 bg-border-subtle mx-1" />
+        <div className="flex items-center gap-1">
+          <button
+            onClick={onZoomIn}
+            className="inline-flex items-center justify-center min-h-[32px] min-w-[32px] p-1.5 border border-border-subtle text-fg-muted hover:text-fg-primary"
+            aria-label="Zoom in"
+          >
+            <ZoomIn className="w-3.5 h-3.5" />
+          </button>
+          <button
+            onClick={onZoomOut}
+            disabled={zoom <= fitZoom + 0.001}
+            className={cn(
+              'inline-flex items-center justify-center min-h-[32px] min-w-[32px] p-1.5 border border-border-subtle text-fg-muted hover:text-fg-primary',
+              zoom <= fitZoom + 0.001 && 'opacity-40 cursor-not-allowed hover:text-fg-muted'
+            )}
+            aria-label="Zoom out"
+          >
+            <ZoomOut className="w-3.5 h-3.5" />
+          </button>
+          <button
+            onClick={handleFit}
+            className="inline-flex items-center justify-center min-h-[32px] min-w-[32px] p-1.5 border border-border-subtle text-fg-muted hover:text-fg-primary"
+            aria-label="Fit"
+          >
+            <Maximize2 className="w-3.5 h-3.5" />
+          </button>
+        </div>
+        <div className="text-mono text-[10px] text-fg-dim px-2 whitespace-nowrap">
           {Math.round(zoom * 100)}%
         </div>
       </div>
@@ -169,8 +190,13 @@ export function InteractiveRoadmap() {
         onMouseMove={onMouseMove}
         onMouseUp={onMouseUp}
         onMouseLeave={onMouseUp}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+        onTouchCancel={onTouchEnd}
         onWheel={onWheel}
         style={{
+          touchAction: 'none',
           backgroundImage:
             'linear-gradient(to right, var(--grid-line) 1px, transparent 1px), linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px)',
           backgroundSize: '32px 32px',
@@ -260,7 +286,7 @@ export function InteractiveRoadmap() {
 
       {/* Selected node panel */}
       {selectedNode && (
-        <div className="absolute right-0 top-12 bottom-0 w-80 bg-bg-raised border-l border-border-subtle z-20 overflow-y-auto">
+        <div className="absolute right-0 top-12 bottom-0 w-full sm:w-80 max-w-md sm:max-w-none mx-auto sm:mx-0 bg-bg-raised border-l border-border-subtle sm:border-l border-t sm:border-t-0 border-border-subtle z-20 overflow-y-auto">
           <div className="p-4 border-b border-border-subtle flex items-start gap-2">
             <div className="flex-1 min-w-0">
               <div className="eyebrow text-fg-muted">{CATEGORY_META[selectedNode.category].label}</div>
@@ -330,7 +356,7 @@ export function InteractiveRoadmap() {
       )}
 
       {/* Legend */}
-      <div className="absolute bottom-4 left-4 z-20 bg-bg-raised border border-border-subtle p-3 text-mono text-[10px] uppercase tracking-wider space-y-1">
+      <div className="hidden sm:block absolute bottom-4 left-4 z-20 bg-bg-raised border border-border-subtle p-3 text-mono text-[10px] uppercase tracking-wider space-y-1">
         <div className="text-fg-dim mb-1.5">STATUS</div>
         {(['not-started', 'learning', 'practiced', 'completed'] as SkillStatus[]).map((s) => (
           <div key={s} className="flex items-center gap-2">

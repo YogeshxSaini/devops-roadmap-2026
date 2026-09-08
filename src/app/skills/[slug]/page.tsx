@@ -34,7 +34,7 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
   const nextSkills = skill.nextSkillIds.map((id) => getSkillBySlug(id)).filter(Boolean);
 
   return (
-    <div className="mx-auto max-w-5xl px-5 py-10">
+    <div className="mx-auto max-w-5xl px-4 sm:px-5 py-8 sm:py-10">
       <Link
         href="/skills"
         className="inline-flex items-center gap-1.5 text-mono text-xs text-fg-muted hover:text-fg-primary mb-6"

@@ -21,13 +21,16 @@ export function TopNav() {
 
   return (
     <header className="sticky top-0 z-40 bg-bg-base/85 backdrop-blur border-b border-border-subtle">
-      <div className="mx-auto max-w-7xl px-5 h-14 flex items-center gap-6">
-        <Link href="/" className="flex items-center gap-2 group">
-          <span className="grid place-items-center w-7 h-7 border border-border bg-bg-raised group-hover:border-accent transition-colors">
+      <div className="mx-auto max-w-7xl px-4 sm:px-5 h-14 flex items-center gap-3 sm:gap-6">
+        <Link href="/" className="flex items-center gap-2 group min-w-0 shrink-0">
+          <span className="grid place-items-center w-7 h-7 border border-border bg-bg-raised group-hover:border-accent transition-colors shrink-0">
             <Terminal className="w-3.5 h-3.5 text-accent" />
           </span>
-          <span className="text-mono text-sm font-medium tracking-tight">
-            devops<span className="text-fg-muted">/</span>roadmap
+          <span className="text-mono text-sm font-medium tracking-tight whitespace-nowrap">
+            <span className="hidden xs:inline">devops</span>
+            <span className="hidden xs:inline text-fg-muted">/</span>
+            <span className="xs:hidden">dr</span>
+            <span>roadmap</span>
             <span className="text-accent">.2026</span>
           </span>
         </Link>
@@ -60,7 +63,7 @@ export function TopNav() {
           <ThemeToggle />
           <button
             aria-label="Toggle menu"
-            className="md:hidden p-2 border border-border-subtle"
+            className="md:hidden inline-flex items-center justify-center min-h-[40px] min-w-[40px] p-2.5 border border-border-subtle"
             onClick={() => setOpen((v) => !v)}
           >
             {open ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}

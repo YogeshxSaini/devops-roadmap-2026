@@ -12,7 +12,7 @@ const VARIANT: Record<Variant, string> = {
 };
 
 const SIZE: Record<Size, string> = {
-  sm: 'text-[11px] px-2.5 py-1',
+  sm: 'text-[11px] px-2.5 py-1.5 min-h-[32px]',
   md: 'text-mono text-xs px-3 py-1.5',
   lg: 'text-mono text-sm px-5 py-2.5',
 };

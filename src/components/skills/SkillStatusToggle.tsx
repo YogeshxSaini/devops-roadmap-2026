@@ -37,8 +37,12 @@ export function SkillStatusToggle({ skillId, compact }: { skillId: string; compa
               setStatus(skillId, s.value);
             }}
             title={s.label}
+            aria-label={s.label}
             className={cn(
-              'flex items-center gap-1.5 px-2.5 py-1.5 border-r border-border-subtle last:border-r-0 transition-colors',
+              'inline-flex items-center justify-center min-h-[32px] sm:min-h-0 border-r border-border-subtle last:border-r-0 transition-colors',
+              compact
+                ? 'gap-1 px-2 sm:px-2.5 py-1.5 sm:py-1.5'
+                : 'gap-1.5 px-2.5 sm:px-2.5 py-2 sm:py-1.5',
               active
                 ? 'bg-accent/10 text-accent'
                 : 'text-fg-muted hover:text-fg-primary hover:bg-bg-overlay'
